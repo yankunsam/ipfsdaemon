@@ -1,5 +1,6 @@
 import daemon
 import subprocess
+import os
 
 
 class Ipfs:
@@ -7,13 +8,16 @@ class Ipfs:
     runCmdList = ['ipfs','daemon']
     ManageConfigCmdList = ['ipfs','config','--json']
     stopCmdList = ['killall','ipfs']
-    def __init__(self,bootstrap,storagemax,datadir):
+    def __init__(self,bootstrap,storagemax,datadir,clustersecret):
         self.bootstrap = bootstrap
         self.storagemax = storagemax
         self.datadir = datadir
+        self.clustersecret = clustersecret
 
     def ipfsInit(self):
         print('In ipfsInit')
+        os.environ['CLUSTER_SECRET'] = self.clustersecret
+        print(os.environ['CLUSTER_SECRET'])
         subprocess.run(self.initCmdList)
 
     def ipfsManageConfig(self,key,configValue):

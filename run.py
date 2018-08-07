@@ -38,7 +38,7 @@ def main():
     addArgument(parser,['init','manageconfig','run','stop'])
     config = parseconfigfile()
     args = parser.parse_args()
-    ipfsInstance = Ipfs(config['Init']['bootstrap'],config['Init']['storagemax'],config['Init']['datadir'])
+    ipfsInstance = Ipfs(config['Init']['bootstrap'],config['Init']['storagemax'],config['Init']['datadir'],config['Init']['clustersecret'])
     args_switch(ipfsInstance,args)
 
 
