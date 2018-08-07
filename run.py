@@ -6,14 +6,12 @@ import os
 
 
 def addArgument(parser,argList):
-    print(argList)
     parser.add_argument("command",help="start a bios node",choices=argList)
     parser.add_argument("--key",help="the key for ipfs config")
     parser.add_argument("--value",help="the value for key in ipfs config")
 
 
 def args_switch(ipfsInstance,args):
-    print('In args_switch()')
     switcher = {
     'init': ipfsInstance.ipfsInit,
     'manageconfig': ipfsInstance.ipfsManageConfig,
@@ -23,7 +21,6 @@ def args_switch(ipfsInstance,args):
         switcher.get(args.command,'nothing')()
     else:
         switcher.get(args.command,'nothing')(args.key,args.value)
-
 
 
 
