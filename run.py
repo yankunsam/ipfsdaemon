@@ -15,7 +15,8 @@ def args_switch(ipfsInstance,args):
     switcher = {
     'init': ipfsInstance.ipfsInit,
     'manageconfig': ipfsInstance.ipfsManageConfig,
-    'run': ipfsInstance.ipfsDaemonRun
+    'run': ipfsInstance.ipfsDaemonRun,
+    'stop': ipfsInstance.ipfsDaemonStop
     }
     if(args.command != 'manageconfig'):
         switcher.get(args.command,'nothing')()
@@ -34,7 +35,7 @@ def parseconfigfile():
 
 def main():
     parser = argparse.ArgumentParser()
-    addArgument(parser,['init','manageconfig','run'])
+    addArgument(parser,['init','manageconfig','run','stop'])
     config = parseconfigfile()
     args = parser.parse_args()
     ipfsInstance = Ipfs(config['Init']['bootstrap'],config['Init']['storagemax'],config['Init']['datadir'])

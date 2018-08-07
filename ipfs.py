@@ -6,6 +6,7 @@ class Ipfs:
     initCmdList = ['ipfs','init']
     runCmdList = ['ipfs','daemon']
     ManageConfigCmdList = ['ipfs','config','--json']
+    stopCmdList = ['killall','ipfs']
     def __init__(self,bootstrap,storagemax,datadir):
         self.bootstrap = bootstrap
         self.storagemax = storagemax
@@ -22,3 +23,6 @@ class Ipfs:
         log = open(("%s/%s" % (self.datadir,"ipfs.log")),'w+')
         with daemon.DaemonContext(stdout=log,stderr=log):
             subprocess.Popen(self.runCmdList)
+
+    def ipfsDaemonStop(self):
+        subprocess.run(self.stopCmdList)
