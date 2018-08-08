@@ -20,7 +20,9 @@ def args_switch(ipfsInstance,clusterInstance,args):
     'ipfsstop': ipfsInstance.ipfsDaemonStop,
     'clusterinit': clusterInstance.clusterInit,
     'clusterrun': clusterInstance.clusterDaemonRun,
-    'clusterstop': clusterInstance.clusterDaemonStop
+    'clustergenesisrun': clusterInstance.clusterGenesisRun,
+    'clusterstop': clusterInstance.clusterDaemonStop,
+    'getclusterid': clusterInstance.getClusterId
     }
     if(args.command != 'ipfsmanageconfig'):
         switcher.get(args.command,'nothing')()
@@ -39,7 +41,7 @@ def parseconfigfile():
 
 def main():
     parser = argparse.ArgumentParser()
-    addArgument(parser,['ipfsinit','ipfsmanageconfig','ipfsrun','ipfsstop','clusterinit','clusterrun','clusterstop'])
+    addArgument(parser,['ipfsinit','ipfsmanageconfig','ipfsrun','ipfsstop','clusterinit','clusterrun','clustergenesisrun','clusterstop','getclusterid'])
     config = parseconfigfile()
     args = parser.parse_args()
     ipfsInstance = Ipfs(config['Init']['bootstrap'],config['Init']['storagemax'],config['Init']['datadir'],config['Init']['clustersecret'])
