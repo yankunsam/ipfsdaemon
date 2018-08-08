@@ -3,6 +3,7 @@ import argparse
 import json
 import configparser
 import os
+from cluster import Cluster
 
 
 def addArgument(parser,argList):
@@ -11,14 +12,17 @@ def addArgument(parser,argList):
     parser.add_argument("--value",help="the value for key in ipfs config")
 
 
-def args_switch(ipfsInstance,args):
+def args_switch(ipfsInstance,clusterInstance,args):
     switcher = {
-    'init': ipfsInstance.ipfsInit,
-    'manageconfig': ipfsInstance.ipfsManageConfig,
-    'run': ipfsInstance.ipfsDaemonRun,
-    'stop': ipfsInstance.ipfsDaemonStop
+    'ipfsinit': ipfsInstance.ipfsInit,
+    'ipfsmanageconfig': ipfsInstance.ipfsManageConfig,
+    'ipfsrun': ipfsInstance.ipfsDaemonRun,
+    'ipfsstop': ipfsInstance.ipfsDaemonStop,
+    'clusterinit': clusterInstance.clusterInit,
+    'clusterrun': clusterInstance.clusterDaemonRun,
+    'clusterstop': clusterInstance.clusterDaemonStop
     }
-    if(args.command != 'manageconfig'):
+    if(args.command != 'ipfsmanageconfig'):
         switcher.get(args.command,'nothing')()
     else:
         switcher.get(args.command,'nothing')(args.key,args.value)
@@ -35,11 +39,12 @@ def parseconfigfile():
 
 def main():
     parser = argparse.ArgumentParser()
-    addArgument(parser,['init','manageconfig','run','stop'])
+    addArgument(parser,['ipfsinit','ipfsmanageconfig','ipfsrun','ipfsstop','clusterinit','clusterrun','clusterstop'])
     config = parseconfigfile()
     args = parser.parse_args()
     ipfsInstance = Ipfs(config['Init']['bootstrap'],config['Init']['storagemax'],config['Init']['datadir'],config['Init']['clustersecret'])
-    args_switch(ipfsInstance,args)
+    clusterInstance = Cluster(config['Init']['bootstrap'],config['Init']['datadir'],config['Init']['clustersecret'])
+    args_switch(ipfsInstance,clusterInstance,args)
 
 
 if __name__ == "__main__":
